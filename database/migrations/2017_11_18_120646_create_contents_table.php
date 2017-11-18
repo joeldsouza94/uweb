@@ -15,6 +15,10 @@ class CreateContentsTable extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('topic_id')->unsigned()->index();
+            $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
+            $table->string('content');
+            $table->text('details');
             $table->timestamps();
         });
     }
