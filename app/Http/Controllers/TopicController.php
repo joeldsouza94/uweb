@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Topic\TopicCollection;
 use App\Http\Resources\Topic\TopicResource;
 use App\Model\Topic;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class TopicController extends Controller
      */
     public function index()
     {
-        return Topic::all();
+        return TopicCollection::collection(Topic::all());
     }
 
     /**
