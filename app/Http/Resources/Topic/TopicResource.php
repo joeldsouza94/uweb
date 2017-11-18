@@ -17,6 +17,9 @@ class TopicResource extends Resource
         return [
             'topic' => $this->topic,
             'description' => $this->description,
+            'href' => [
+                'contents' => route('contents.index',$this->id)
+            ]
         ];
     }
 }
