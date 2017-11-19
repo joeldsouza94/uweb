@@ -16,7 +16,7 @@ class TopicController extends Controller
      */
     public function index()
     {
-        return TopicCollection::collection(Topic::all());
+        return TopicCollection::collection(Topic::paginate(5));
     }
 
     /**

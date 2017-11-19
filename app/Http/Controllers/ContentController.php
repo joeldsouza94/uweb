@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Content\ContentResource;
 use App\Model\Content;
+use App\Model\Topic;
 use Illuminate\Http\Request;
 
 class ContentController extends Controller
@@ -12,9 +14,9 @@ class ContentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Topic $topic)
     {
-        //
+        return ContentResource::collection($topic->contents);
     }
 
     /**
