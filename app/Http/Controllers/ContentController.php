@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContentRequest;
 use App\Http\Resources\Content\ContentResource;
 use App\Model\Content;
 use App\Model\Topic;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Auth;
 
 class ContentController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth:api')->except('index','show');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,9 +41,15 @@ class ContentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(ContentRequest $request, Topic $topic)
+    {   
+        $content = new Content($request->all());
+        $content->created_by_user_id = Auth::id();
+        $content->updated_by_user_id = Auth::id();
+        $topic->contents()->save($content);
+        return response([
+            'data' => new ContentResource($content)
+        ], Response::HTTP_CREATED);
     }
 
     /**
