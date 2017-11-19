@@ -83,7 +83,10 @@ class TopicController extends Controller
      */
     public function update(Request $request, Topic $topic)
     {
-        //
+        $topic->update($request->all());
+        return response([
+            'data' => new TopicResource($topic)
+        ], Response::HTTP_CREATED);
     }
 
     /**
