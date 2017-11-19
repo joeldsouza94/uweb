@@ -97,6 +97,7 @@ class TopicController extends Controller
      */
     public function destroy(Topic $topic)
     {
-        //
+        $topic->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }
