@@ -19,6 +19,8 @@ class CreateContentsTable extends Migration
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
             $table->string('content');
             $table->text('details');
+            $table->integer('created_by_user_id')->unsigned()->index();
+            $table->integer('updated_by_user_id')->unsigned()->index();
             $table->timestamps();
         });
     }

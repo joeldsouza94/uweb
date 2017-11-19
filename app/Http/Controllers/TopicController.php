@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\TopicDoesNotBelongToUserException;
 use App\Http\Requests\TopicRequest;
 use App\Http\Resources\Topic\TopicCollection;
 use App\Http\Resources\Topic\TopicResource;
 use App\Model\Topic;
+use Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -46,6 +48,8 @@ class TopicController extends Controller
         $topic = new Topic;
         $topic->topic = $request->topic;
         $topic->description = $request->description;
+        $topic->created_by_user_id = Auth::id();
+        $topic->updated_by_user_id = Auth::id();
         $topic->save();
         return response([
             'data' => new TopicResource($topic)
@@ -83,6 +87,7 @@ class TopicController extends Controller
      */
     public function update(Request $request, Topic $topic)
     {
+        $topic->updated_by_user_id = Auth::id();
         $topic->update($request->all());
         return response([
             'data' => new TopicResource($topic)
@@ -97,7 +102,14 @@ class TopicController extends Controller
      */
     public function destroy(Topic $topic)
     {
+        $this->topicUserCheck($topic);
         $topic->delete();
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function topicUserCheck($topic) {
+        if (Auth::id() !== $topic->created_by_user_id) {
+            throw new TopicDoesNotBelongToUserException;
+        }
     }
 }

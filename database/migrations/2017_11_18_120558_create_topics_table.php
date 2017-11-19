@@ -17,6 +17,8 @@ class CreateTopicsTable extends Migration
             $table->increments('id');
             $table->string('topic');
             $table->text('description');
+            $table->integer('created_by_user_id')->unsigned()->index();
+            $table->integer('updated_by_user_id')->unsigned()->index();
             $table->timestamps();
         });
     }
