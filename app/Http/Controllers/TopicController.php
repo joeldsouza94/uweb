@@ -102,12 +102,12 @@ class TopicController extends Controller
      */
     public function destroy(Topic $topic)
     {
-        $this->topicUserCheck($topic);
+        $this->topicCreatorCheck($topic);
         $topic->delete();
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function topicUserCheck($topic) {
+    public function topicCreatorCheck($topic) {
         if (Auth::id() !== $topic->created_by_user_id) {
             throw new TopicDoesNotBelongToUserException;
         }

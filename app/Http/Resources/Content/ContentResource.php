@@ -15,6 +15,7 @@ class ContentResource extends Resource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'content' => $this->content,
             'details' => $this->details,
         ];

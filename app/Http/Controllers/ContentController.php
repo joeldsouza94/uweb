@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ContentDoesNotBelongToUserException;
 use App\Http\Requests\ContentRequest;
 use App\Http\Resources\Content\ContentResource;
 use App\Model\Content;
 use App\Model\Topic;
+use Auth;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Auth;
 
 class ContentController extends Controller
 {
@@ -81,9 +82,13 @@ class ContentController extends Controller
      * @param  \App\Model\Content  $content
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Content $content)
+    public function update(Request $request, Topic $topic, Content $content)
     {
-        //
+        $content->updated_by_user_id = Auth::id();
+        $content->update($request->all());
+        return response([
+            'data' => new ContentResource($content)
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -92,8 +97,16 @@ class ContentController extends Controller
      * @param  \App\Model\Content  $content
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Content $content)
+    public function destroy( Topic $topic, Content $content)
     {
-        //
+        $this->contentCreatorCheck($content);
+        $content->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function contentCreatorCheck($content) {
+        if (Auth::id() !== $content->created_by_user_id) {
+            throw new ContentDoesNotBelongToUserException;
+        }
     }
 }
