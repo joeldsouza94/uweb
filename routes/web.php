@@ -11,10 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'TopicController@index');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::Resource('/topics','TopicController');
+
+Route::group(['prefix'=>'topics'], function(){
+	Route::Resource('/{topic}/contents','ContentController');
+});

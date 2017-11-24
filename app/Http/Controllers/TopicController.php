@@ -15,7 +15,7 @@ class TopicController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth:api')->except('index','show');
+        $this->middleware('auth')->except('index','show');
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +24,9 @@ class TopicController extends Controller
      */
     public function index()
     {
-        return TopicCollection::collection(Topic::paginate(5));
+        //$topics = TopicCollection::collection(Topic::paginate(5));
+        $topics = Topic::all();
+        return view('welcome')->with(compact('topics'));
     }
 
     /**
