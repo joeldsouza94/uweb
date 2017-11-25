@@ -25,53 +25,53 @@
                 <div class="panel-heading">Dashboard</div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Add New Topic
+                            Add New content
                         </div>
 
                         <div class="panel-body">
-                            <form action="{{ url('topics/create') }}" method="POST">
+                            <form action="{{ url('topics/'.$topic->id.'/contents/create') }}" method="POST">
                                 {{ csrf_field() }}
                                 {{ method_field('GET') }}
 
-                                <button type="submit" id="create-topic" class="btn btn-danger">
+                                <button type="submit" id="create-content" class="btn btn-danger">
                                     <i class="fa fa-btn fa-trash"></i>Create
                                 </button>
                             </form>
                         </div>
                     </div>
-                    <!-- Current Topics -->
-                    @if (count($topics) > 0)
+                    <!-- Current contents -->
+                    @if (count($contents) > 0)
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                Current Topics
+                                Current contents
                             </div>
 
                             <div class="panel-body">
-                                <table class="table table-striped topic-table">
+                                <table class="table table-striped content-table">
 
                                     <!-- Table Headings -->
                                     <thead>
-                                        <th>Topic</th>
+                                        <th>content</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </thead>
 
                                     <!-- Table Body -->
                                     <tbody>
-                                        @foreach ($topics as $topic)
+                                        @foreach ($contents as $content)
                                             <tr>
-                                                <!-- topic link -->
+                                                <!-- content link -->
                                                 <td class="table-text">
-                                                    <div><a href="{{ route('contents.index',$topic->id) }}">{{ $topic->topic }}</a></div>
+                                                    <div><a href="{{ route('contents.index',$content->id) }}">{{ $content->content }}</a></div>
                                                 </td>
 
                                                 <!-- edit Button -->
                                                 <td>
-                                                    <form action="{{ url('topics/'.$topic->id.'/edit') }}" method="POST">
+                                                    <form action="{{ url('topics/'.$topic->id.'/contents/'.$content->id.'/edit') }}" method="POST">
                                                         {{ csrf_field() }}
                                                         {{ method_field('GET') }}
 
-                                                        <button type="submit" id="edit-topic-{{ $topic->id }}" class="btn btn-danger">
+                                                        <button type="submit" id="edit-content-{{ $content->id }}" class="btn btn-danger">
                                                             <i class="fa fa-btn fa-trash"></i>Edit
                                                         </button>
                                                     </form>
@@ -79,11 +79,11 @@
 
                                                 <!-- Delete Button -->
                                                 <td>
-                                                    <form action="{{ url('topics/'.$topic->id) }}" method="POST">
+                                                    <form action="{{ url('topics/'.$topic->id.'/contents/'.$content->id) }}" method="POST">
                                                         {{ csrf_field() }}
                                                         {{ method_field('DELETE') }}
 
-                                                        <button type="submit" id="delete-topic-{{ $topic->id }}" class="btn btn-danger">
+                                                        <button type="submit" id="delete-content-{{ $content->id }}" class="btn btn-danger">
                                                             <i class="fa fa-btn fa-trash"></i>Delete
                                                         </button>
                                                     </form>
@@ -97,7 +97,7 @@
                     @else
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                No topics!
+                                No contents!
                             </div>
                         </div>
                     @endif

@@ -36,7 +36,7 @@ class TopicController extends Controller
      */
     public function create()
     {
-        //
+        return view('topiccreate');
     }
 
     /**
@@ -53,9 +53,12 @@ class TopicController extends Controller
         $topic->created_by_user_id = Auth::id();
         $topic->updated_by_user_id = Auth::id();
         $topic->save();
+        /*
         return response([
             'data' => new TopicResource($topic)
         ], Response::HTTP_CREATED);
+        */
+        return redirect('/');
     }
 
     /**
@@ -77,7 +80,8 @@ class TopicController extends Controller
      */
     public function edit(Topic $topic)
     {
-        //
+        //return $topic;
+        return view('topicedit')->with(compact('topic'));
     }
 
     /**
@@ -91,9 +95,12 @@ class TopicController extends Controller
     {
         $topic->updated_by_user_id = Auth::id();
         $topic->update($request->all());
+        /*
         return response([
             'data' => new TopicResource($topic)
         ], Response::HTTP_CREATED);
+        */
+        return redirect('/');
     }
 
     /**
@@ -106,12 +113,17 @@ class TopicController extends Controller
     {
         $this->topicCreatorCheck($topic);
         $topic->delete();
-        return response(null, Response::HTTP_NO_CONTENT);
+        //return response(null, Response::HTTP_NO_CONTENT);
+        return redirect('/');
     }
 
     public function topicCreatorCheck($topic) {
         if (Auth::id() !== $topic->created_by_user_id) {
             throw new TopicDoesNotBelongToUserException;
         }
+    }
+
+    public function topicexception() {
+        return view('topicexception');
     }
 }

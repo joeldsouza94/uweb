@@ -7,6 +7,7 @@ use Exception;
 class ContentDoesNotBelongToUserException extends Exception
 {
     public function render() {
-    	return ['errors' => 'Only the content creater can delete the content'];
+    	//return ['errors' => 'Only the content creater can delete the content'];
+    	return redirect()->route('contentexception');
     }
 }

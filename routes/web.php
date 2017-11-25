@@ -17,6 +17,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/topicexception', 'TopicController@topicexception')->name('topicexception');
+
+Route::get('/contentexception', 'ContentController@contentexception')->name('contentexception');
+
 Route::Resource('/topics','TopicController');
 
 Route::group(['prefix'=>'topics'], function(){

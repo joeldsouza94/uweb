@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ContentController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth:api')->except('index','show');
+        $this->middleware('auth')->except('index','show');
     }
     /**
      * Display a listing of the resource.
@@ -23,7 +23,9 @@ class ContentController extends Controller
      */
     public function index(Topic $topic)
     {
-        return ContentResource::collection($topic->contents);
+        //return ContentResource::collection($topic->contents);
+        $contents = $topic->contents;
+        return view('topiccontents')->with(compact('contents','topic'));
     }
 
     /**
@@ -31,9 +33,9 @@ class ContentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Topic $topic)
     {
-        //
+        return view('contentcreate')->with(compact('topic'));
     }
 
     /**
@@ -48,9 +50,12 @@ class ContentController extends Controller
         $content->created_by_user_id = Auth::id();
         $content->updated_by_user_id = Auth::id();
         $topic->contents()->save($content);
+        /*
         return response([
             'data' => new ContentResource($content)
         ], Response::HTTP_CREATED);
+        */
+        return redirect()->route('contents.index', $topic);
     }
 
     /**
@@ -70,9 +75,9 @@ class ContentController extends Controller
      * @param  \App\Model\Content  $content
      * @return \Illuminate\Http\Response
      */
-    public function edit(Content $content)
-    {
-        //
+    public function edit( Topic $topic, Content $content)
+    {   
+        return view('contentedit')->with(compact('content'));
     }
 
     /**
@@ -86,9 +91,12 @@ class ContentController extends Controller
     {
         $content->updated_by_user_id = Auth::id();
         $content->update($request->all());
+        /*
         return response([
             'data' => new ContentResource($content)
         ], Response::HTTP_CREATED);
+        */
+        return redirect()->route('contents.index', $topic);
     }
 
     /**
@@ -101,12 +109,19 @@ class ContentController extends Controller
     {
         $this->contentCreatorCheck($content);
         $content->delete();
+        /*
         return response(null, Response::HTTP_NO_CONTENT);
+        */
+        return redirect()->route('contents.index', $topic);
     }
 
     public function contentCreatorCheck($content) {
         if (Auth::id() !== $content->created_by_user_id) {
             throw new ContentDoesNotBelongToUserException;
         }
+    }
+
+    public function contentexception() {
+        return view('contentexception');
     }
 }
