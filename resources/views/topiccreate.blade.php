@@ -8,13 +8,12 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    Welcome!
+                    You are about add a new topic.
+                    <br>
+                    To go back to existing topics, click on below button.
+                    <br><br>
+                    <a href="{{ url('/') }}" class="btn btn-primary"><b>Topics</b>
+                    </a>
                 </div>
             </div>
         </div>
@@ -22,7 +21,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Create topic</div>
                     
                     <div class="panel-body">
                         <!-- Display Validation Errors -->
@@ -54,7 +53,7 @@
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-6">
                                     <button type="submit" class="btn btn-default">
-                                        <i class="fa fa-plus"></i> Create topic
+                                        <i class="fa fa-plus"></i> Add topic
                                     </button>
                                 </div>
                             </div>

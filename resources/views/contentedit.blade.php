@@ -8,13 +8,12 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    Welcome!
+                    You are about to edit content details.
+                    <br>
+                    To go back to all contents, click on below button.
+                    <br><br>
+                    <a href="{{ url('topics/'.$topic->id.'/contents') }}" class="btn btn-primary"><b>{{ $topic->topic }}</b>
+                    </a>
                 </div>
             </div>
         </div>
@@ -22,11 +21,9 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Edit content details</div>
                     
                     <div class="panel-body">
-                        <!-- Display Validation Errors -->
-                        @include('common.errors')
 
                         <!-- Edit content Form -->
                         <form action="{{ url('topics/'.$content->topic_id.'/contents/'.$content->id) }}" method="POST" class="form-horizontal">
@@ -35,16 +32,16 @@
 
                             <!-- content Name -->
                             <div class="form-group">
-                                <label for="content-name" class="col-sm-3 control-label">content</label>
+                                <label for="content-name" class="col-sm-3 control-label">Content</label>
 
                                 <div class="col-sm-6">
-                                    <input type="text" name="content" id="content-name" value="{{ $content->content }}" class="form-control" required>
+                                    <input disabled type="text" name="content" id="content-name" value="{{ $content->content }}" class="form-control" required>
                                 </div>
                             </div>
 
                             <!-- content details -->
                             <div class="form-group">
-                                <label for="content-name" class="col-sm-3 control-label">details</label>
+                                <label for="content-name" class="col-sm-3 control-label">Details</label>
 
                                 <div class="col-sm-6">
                                     <textarea style="overflow:auto;resize:vertical" name="details" id="content-details" class="form-control" required autofocus>{{ $content->details }}</textarea>

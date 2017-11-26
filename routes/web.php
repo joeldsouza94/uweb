@@ -21,7 +21,9 @@ Route::get('/topicexception', 'TopicController@topicexception')->name('topicexce
 
 Route::get('/contentexception', 'ContentController@contentexception')->name('contentexception');
 
-Route::Resource('/topics','TopicController');
+Route::Resource('/topics','TopicController', [
+    'except' => [ 'show' ]
+]);
 
 Route::group(['prefix'=>'topics'], function(){
 	Route::Resource('/{topic}/contents','ContentController');

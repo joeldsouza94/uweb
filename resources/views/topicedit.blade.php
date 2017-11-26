@@ -8,13 +8,12 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    Welcome!
+                    You are about to edit topic description.
+                    <br>
+                    To go back to all contents, click on below button.
+                    <br><br>
+                    <a href="{{ url('topics/'.$topic->id.'/contents') }}" class="btn btn-primary"><b>{{ $topic->topic }}</b>
+                    </a>
                 </div>
             </div>
         </div>
@@ -22,11 +21,9 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Edit topic description</div>
                     
                     <div class="panel-body">
-                        <!-- Display Validation Errors -->
-                        @include('common.errors')
 
                         <!-- Edit topic Form -->
                         <form action="{{ url('topics/'.$topic->id) }}" method="POST" class="form-horizontal">
@@ -38,7 +35,7 @@
                                 <label for="topic-name" class="col-sm-3 control-label">Topic</label>
 
                                 <div class="col-sm-6">
-                                    <input type="text" name="topic" id="topic-name" value="{{ $topic->topic }}" class="form-control" required>
+                                    <input disabled type="text" name="topic" id="topic-name" value="{{ $topic->topic }}" class="form-control" required>
                                 </div>
                             </div>
 

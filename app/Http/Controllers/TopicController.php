@@ -15,7 +15,7 @@ class TopicController extends Controller
 {
 
     public function __construct() {
-        $this->middleware('auth')->except('index','show');
+        $this->middleware('auth')->except('index');
     }
     /**
      * Display a listing of the resource.
@@ -58,7 +58,7 @@ class TopicController extends Controller
             'data' => new TopicResource($topic)
         ], Response::HTTP_CREATED);
         */
-        return redirect('/');
+        return redirect()->route('contents.index', $topic);
     }
 
     /**
@@ -100,7 +100,7 @@ class TopicController extends Controller
             'data' => new TopicResource($topic)
         ], Response::HTTP_CREATED);
         */
-        return redirect('/');
+        return redirect()->route('contents.index', $topic);
     }
 
     /**
@@ -118,7 +118,7 @@ class TopicController extends Controller
     }
 
     public function topicCreatorCheck($topic) {
-        if (Auth::id() !== $topic->created_by_user_id) {
+        if (Auth::id() != $topic->created_by_user_id) {
             throw new TopicDoesNotBelongToUserException;
         }
     }

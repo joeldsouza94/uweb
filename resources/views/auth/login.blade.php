@@ -5,6 +5,18 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
+                <div class="panel-heading">Dashboard</div>
+
+                <div class="panel-body">
+                    You need to login before accessing the knowledge base.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
 
                 <div class="panel-body">
@@ -57,6 +69,15 @@
 
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     Forgot Your Password?
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                    Haven't registered yet?
+                                <a class="btn btn-primary" href="{{ route('register') }}">
+                                    Register
                                 </a>
                             </div>
                         </div>

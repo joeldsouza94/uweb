@@ -7,14 +7,17 @@ use App\Http\Requests\ContentRequest;
 use App\Http\Resources\Content\ContentResource;
 use App\Model\Content;
 use App\Model\Topic;
+use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class ContentController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth')->except('index','show');
+        //$this->middleware('auth')->except('index','show');
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -25,7 +28,17 @@ class ContentController extends Controller
     {
         //return ContentResource::collection($topic->contents);
         $contents = $topic->contents;
-        return view('topiccontents')->with(compact('contents','topic'));
+        $added_by = User::find($topic->created_by_user_id);
+        $updated_by = User::find($topic->updated_by_user_id);
+        $updated_at = $topic->updated_at;
+        $updatedcontent = DB::table('contents')->where('topic_id', $topic->id)->latest('updated_at')->first();
+        if ($updatedcontent) {
+            if ($topic->updated_at < $updatedcontent->updated_at) {
+                $updated_by = User::find($updatedcontent->updated_by_user_id);
+                $updated_at = $updatedcontent->updated_at;
+            }
+        }
+        return view('topiccontents')->with(compact('contents','topic','added_by','updated_by','updated_at'));
     }
 
     /**
@@ -55,7 +68,8 @@ class ContentController extends Controller
             'data' => new ContentResource($content)
         ], Response::HTTP_CREATED);
         */
-        return redirect()->route('contents.index', $topic);
+        //return redirect()->route('contents.index', $topic);
+        return redirect('topics/'.$topic->id.'/contents/'.$content->id);
     }
 
     /**
@@ -64,9 +78,12 @@ class ContentController extends Controller
      * @param  \App\Model\Content  $content
      * @return \Illuminate\Http\Response
      */
-    public function show(Content $content)
-    {
-        //
+    public function show( Topic $topic, Content $content)
+    {   
+        //return 1;
+        $added_by = User::find($content->created_by_user_id);
+        $updated_by = User::find($content->updated_by_user_id);
+        return view('contentshow')->with(compact('content','added_by','updated_by','topic'));
     }
 
     /**
@@ -77,7 +94,7 @@ class ContentController extends Controller
      */
     public function edit( Topic $topic, Content $content)
     {   
-        return view('contentedit')->with(compact('content'));
+        return view('contentedit')->with(compact('content','topic'));
     }
 
     /**
@@ -96,7 +113,7 @@ class ContentController extends Controller
             'data' => new ContentResource($content)
         ], Response::HTTP_CREATED);
         */
-        return redirect()->route('contents.index', $topic);
+        return redirect('topics/'.$topic->id.'/contents/'.$content->id);
     }
 
     /**
@@ -116,7 +133,7 @@ class ContentController extends Controller
     }
 
     public function contentCreatorCheck($content) {
-        if (Auth::id() !== $content->created_by_user_id) {
+        if (Auth::id() != $content->created_by_user_id) {
             throw new ContentDoesNotBelongToUserException;
         }
     }

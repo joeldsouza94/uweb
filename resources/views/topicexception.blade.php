@@ -8,13 +8,12 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
                     Only the topic creater can delete the topic.
+                    <br><br>
+                    To go back to previous page, click on below button.
+                    <br><br>
+                    <a href="{{ URL::previous() }}" class="btn btn-primary"><b>Back</b>
+                    </a>
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Welcome!</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    Welcome!
+                    Please note that only registered FSTI members will have full access to this knowledge base.
                 </div>
             </div>
         </div>
@@ -22,21 +22,15 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading"><b>Topics</b></div>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Add New Topic
                         </div>
 
                         <div class="panel-body">
-                            <form action="{{ url('topics/create') }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('GET') }}
-
-                                <button type="submit" id="create-topic" class="btn btn-danger">
-                                    <i class="fa fa-btn fa-trash"></i>Create
-                                </button>
-                            </form>
+                            <a href="{{ url('topics/create') }}" class="btn btn-primary">Create
+                            </a>
                         </div>
                     </div>
                     <!-- Current Topics -->
@@ -62,19 +56,14 @@
                                             <tr>
                                                 <!-- topic link -->
                                                 <td class="table-text">
-                                                    <div><a href="{{ route('contents.index',$topic->id) }}">{{ $topic->topic }}</a></div>
+                                                    <a href="{{ url('topics/'.$topic->id.'/contents') }}" class="btn btn-primary"><b>{{ $topic->topic }}</b>
+                                                    </a>
                                                 </td>
 
                                                 <!-- edit Button -->
                                                 <td>
-                                                    <form action="{{ url('topics/'.$topic->id.'/edit') }}" method="POST">
-                                                        {{ csrf_field() }}
-                                                        {{ method_field('GET') }}
-
-                                                        <button type="submit" id="edit-topic-{{ $topic->id }}" class="btn btn-danger">
-                                                            <i class="fa fa-btn fa-trash"></i>Edit
-                                                        </button>
-                                                    </form>
+                                                    <a href="{{ url('topics/'.$topic->id.'/edit') }}" class="btn btn-warning">Edit
+                                                    </a>
                                                 </td>
 
                                                 <!-- Delete Button -->

@@ -68,6 +68,15 @@
                                 </button>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                    Already registered?
+                                <a class="btn btn-primary" href="{{ route('login') }}">
+                                    Login
+                                </a>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
